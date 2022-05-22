@@ -1,6 +1,8 @@
 # Intercept for SwiftUI
 
-Intercept is a collection of extensions for SwiftUI that enable features which are not yet natively supported.
+Intercept is a collection of extensions for SwiftUI that enable subtle yet important features.
+
+It’s meant to be used in conjuction with [Introspect for SwiftUI](https://github.com/siteline/SwiftUI-Introspect), hence the name.
 
 
 ## Installation
@@ -18,6 +20,10 @@ Intercept is a collection of extensions for SwiftUI that enable features which a
 
 ### List Clip Inset for macOS
 
+`.listClipInset` insets the list view’s clip view by the specified insets.
+
+`objc_allocateClassPair()` is used for this.
+
 ```swift
 List(selection: $selection) {
   // …
@@ -27,10 +33,19 @@ List(selection: $selection) {
 .listClipInset(EdgeInsets(top: -5, leading: 0, bottom: 0, trailing: 0))
 ```
 
+Due to an unfortunate side effect which makes the inset jump when the list first appears, it’s recommended you hide your list, or the window containing it, for a single run loop iteration.  
+
+
+#### Alternatives Considered
+
+Why not use a negative padding, you might ask? Well, that could sort of work, but it messes up keyboard navigation.
+
 
 ### List Double-Clicking for macOS
 
-`.onListDoubleClick` intercepts `NSTableView`’s `doubleAction` target-action invocation for `List` on macOS. `NSProxy` is used for this.
+`.onListDoubleClick` intercepts `NSTableView`’s `doubleAction` target-action invocation for `List` on macOS.
+
+`InterceptionProxy` is used for this.
 
 ```swift
 List(selection: $selection) {
@@ -44,9 +59,16 @@ List(selection: $selection) {
 ```
 
 
+#### Alternatives Considered
+
+Why not use `.onTapGesture(count: 2)`, you might ask? Well, it doesn’t reach all the way to the edge of the rows.
+
+
 ### List Selection Emphasis for macOS
 
-`.listSelectionEmphasized` sets `NSTableRowView`’s `isEmphasized` to true. `objc_allocateClassPair()` is used for this.
+`.listSelectionEmphasized` sets `NSTableRowView`’s `isEmphasized` to true.
+
+`objc_allocateClassPair()` is used for this.
 
 ```swift
 List(selection: $selection) {
@@ -58,13 +80,18 @@ List(selection: $selection) {
 ```
 
 
+#### Alternatives Considered
+
+Why not simply draw an emphasized selection yourself, you might ask? Well, that doesn’t work 100%, as there’s no `isSelected` environment value in SwiftUI, and the selection binding in lists are not updated while the mouse is down.  
+
+
 ### Interception Proxy
 
-`InterceptionProxy` is like a [meddler-in-the-middle attack](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) but for Swift and Objective-C.
+`InterceptionProxy` is like a [meddler-in-the-middle attack](https://en.wikipedia.org/wiki/Man-in-the-middle_attack) for Swift and Objective-C.
 
-It’s an `NSProxy` subclass which delegates calls between a `middleDelegate` and an `originalDelegate`.
+It’s an `NSProxy` subclass which allows you to override the behavior of existing methods.
 
-`InterceptionProxy` is implemented in Objective-C due to `NSProxy` being unavailable in Swift. 
+Since `NSInvocation` and its related APIs are unavailable in Swift, the proxy is implemented in Objective-C. 
 
 ```objc
 - (void)forwardInvocation:(NSInvocation *)invocation {

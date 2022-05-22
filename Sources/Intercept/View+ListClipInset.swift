@@ -4,6 +4,8 @@ import SwiftUI
 import Introspect
 import InterceptObjC
 
+// TODO: make listClipInset and listSelectionEmphasis work together simultaneously.
+
 @available(macOS 10.15.0, *)
 public extension View {
   /// Emphasizes selection in a list.
@@ -100,7 +102,14 @@ fileprivate class Coordinator: NSTableView {
 
 @available(macOS 10.15.0, *)
 struct ListClipInsets_Previews: PreviewProvider {
-  static var previews: some View { Preview() }
+  static var previews: some View {
+    TabView {
+      Preview()
+      Preview()
+      Preview()
+      Preview()
+    }
+  }
   
   struct Preview: View {
     @State var selection: Int?
