@@ -11,7 +11,7 @@ public extension View {
   /// Sets an action to perform when a list in this view receive a double-click.
   func onListDoubleClick(perform action: @escaping (NSTableView) -> Void) -> some View {
     deepIntrospectTableView {
-      print((#function, type(of: $0), listSubclass))
+      // print((#function, type(of: $0), listSubclass))
       $0.intercept_doubleAction = action
       if $0.intercept_coordinator == nil {
         $0.intercept_coordinator = Coordinator($0.target)

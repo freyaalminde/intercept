@@ -23,13 +23,13 @@ public extension View {
         let newClassName = "\(originalClass)_Intercept_\(UUID())"
         
         guard let subclass: AnyClass = objc_allocateClassPair(originalClass, newClassName, 0) else {
-          print("failed to call objc_allocateClassPair(\(originalClass), \(newClassName), 0)")
+          // print("failed to call objc_allocateClassPair(\(originalClass), \(newClassName), 0)")
           return
         }
         
         objc_registerClassPair(subclass)
         
-        print("objc_registerClassPair(): \(originalClass) → \(newClassName)")
+        // print("objc_registerClassPair(): \(originalClass) → \(newClassName)")
         
         listSubclass = subclass
       }
@@ -39,14 +39,14 @@ public extension View {
       }
 
       guard let subclass = listSubclass else { fatalError() }
-      print(subclass)
+      // print(subclass)
       do {
         let selector = #selector(Coordinator.rowView(atRow:makeIfNecessary:))
         let method = class_getInstanceMethod(Coordinator.self, selector)!
         let implementation = method_getImplementation(method)
         let typeEncoding = method_getTypeEncoding(method)
         if class_getMethodImplementation(subclass, selector) != implementation {
-          print("adding \(selector)")
+          // print("adding \(selector)")
           class_addMethod(subclass, selector, implementation, typeEncoding)
         }
       }
@@ -71,7 +71,9 @@ fileprivate class Coordinator: NSTableView {
     DispatchQueue.main.async {
       rowView?.isEmphasized = true
     }
-    if rowView == nil { print("rowView is nil") }
+    if rowView == nil {
+      // print("rowView is nil")
+    }
     return rowView
   }
 }

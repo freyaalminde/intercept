@@ -20,19 +20,19 @@ public extension View {
         right: insets.trailing
       )
 
-      print((#function, type(of: $0), listSubclass))
+      // print((#function, type(of: $0), listSubclass))
       if listSubclass == nil {
         let originalClass = type(of: $0)
         let newClassName = "\(originalClass)_Intercept_\(UUID())"
         
         guard let subclass: AnyClass = objc_allocateClassPair(originalClass, newClassName, 0) else {
-          print("failed to call objc_allocateClassPair(\(originalClass), \(newClassName), 0)")
+          // print("failed to call objc_allocateClassPair(\(originalClass), \(newClassName), 0)")
           return
         }
         
         objc_registerClassPair(subclass)
         
-        print("objc_registerClassPair(): \(originalClass) → \(newClassName)")
+        // print("objc_registerClassPair(): \(originalClass) → \(newClassName)")
         
         listSubclass = subclass
       }
@@ -42,14 +42,14 @@ public extension View {
       }
       
       guard let subclass = listSubclass else { fatalError() }
-      print(subclass)
+      // print(subclass)
       do {
         let selector = #selector(Coordinator.scrollRowToVisible(_:))
         let method = class_getInstanceMethod(Coordinator.self, selector)!
         let implementation = method_getImplementation(method)
         let typeEncoding = method_getTypeEncoding(method)
         if class_getMethodImplementation(subclass, selector) != implementation {
-          print("adding \(selector)")
+          // print("adding \(selector)")
           class_addMethod(subclass, selector, implementation, typeEncoding)
         }
       }
