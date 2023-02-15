@@ -8,7 +8,7 @@ It’s meant to be used in conjuction with [Introspect for SwiftUI](https://gith
 ## Installation
 
 ```swift
-.package(url: "https://github.com/freyaariel/intercept.git", branch: "main"),
+.package(url: "https://github.com/freyaalminde/intercept.git", branch: "main"),
 ```
 
 ```swift
@@ -22,7 +22,7 @@ It’s meant to be used in conjuction with [Introspect for SwiftUI](https://gith
 
 The `listClipInset()` modifier insets the list view’s clip view by the specified insets.
 
-`objc_allocateClassPair()` is used for this.
+`objc_allocateClassPair()` is used under the hood for this.
 
 ```swift
 List(selection: $selection) {
@@ -38,14 +38,14 @@ Due to an unfortunate side effect which makes the inset jump when the list first
 
 #### Alternatives Considered
 
-Why not use a negative padding, you might ask? That could sort of work, but it messes up keyboard navigation.
+Why not use a negative padding? That could sort of work, but it messes up keyboard navigation.
 
 
 ### List Double-Clicking for macOS
 
 The modifier `onListDoubleClick()` intercepts the underlying tabel view’s `doubleAction` target-action invocation for a macOS `List`.
 
-`InterceptionProxy` is used for this.
+`InterceptionProxy` is used under the hood for this.
 
 ```swift
 List(selection: $selection) {
@@ -63,14 +63,14 @@ List(selection: $selection) {
 
 #### Alternatives Considered
 
-Why not use `onTapGesture(count: 2)`, you might ask? It doesn’t reach all the way to the edge of the rows.
+Why not use `onTapGesture(count: 2)`? It doesn’t reach all the way to the edge of the rows.
 
 
 ### List Selection Emphasis for macOS
 
 The `listSelectionEmphasized()` modifier sets `NSTableRowView`’s `isEmphasized` to true.
 
-`objc_allocateClassPair()` is used for this.
+`objc_allocateClassPair()` is used under the hood for this.
 
 ```swift
 List(selection: $selection) {
@@ -84,7 +84,7 @@ List(selection: $selection) {
 
 #### Alternatives Considered
 
-Why not simply draw an emphasized selection yourself, you might ask? That doesn’t work 100%, as there’s no `isSelected` environment value in SwiftUI, and the selection binding in lists are not updated while the mouse is down.  
+Why not simply draw an emphasized selection yourself? That doesn’t work 100% as there’s no `isSelected` environment value in SwiftUI, and the selection bindings in lists are not updated while the mouse is down.  
 
 
 ### Interception Proxy
