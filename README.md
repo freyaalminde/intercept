@@ -8,7 +8,7 @@ It’s meant to be used in conjuction with [Introspect for SwiftUI](https://gith
 ## Installation
 
 ```swift
-.package(url: "https://github.com/freyaalminde/intercept.git", branch: "main"),
+.package(url: "https://github.com/freysie/intercept.git", branch: "main"),
 ```
 
 ```swift
