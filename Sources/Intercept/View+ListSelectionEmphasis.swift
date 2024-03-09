@@ -7,7 +7,7 @@ import InterceptObjC
 @available(macOS 10.15.0, *)
 public extension View {
   func deepIntrospectTableView(customize: @escaping (NSTableView) -> ()) -> some View {
-    introspect(selector: TargetViewSelector.siblingContainingOrAncestorOrAncestorChild, customize: customize)
+    introspect(selector:  TargetViewSelector.siblingContainingOrAncestorOrAncestorChild, customize: customize)
   }
 }
 
