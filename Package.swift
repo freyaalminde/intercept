@@ -1,4 +1,4 @@
-// swift-tools-version: 5.5
+// swift-tools-version: 5.6
 import PackageDescription
 
 let package = Package(
@@ -13,7 +13,7 @@ let package = Package(
     .library(name: "InterceptObjC", targets: ["InterceptObjC"]),
   ],
   dependencies: [
-    .package(url: "https://github.com/siteline/SwiftUI-Introspect.git", branch: "master"),
+    .package(url: "https://github.com/siteline/SwiftUI-Introspect.git", exact: "0.11.0"),
   ],
   targets: [
     .target(name: "Intercept", dependencies: [
